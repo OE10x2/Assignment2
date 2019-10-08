@@ -69,7 +69,7 @@ public class Arc extends Function implements Calculations, Drawable{
         double i = super.x1, XEnd = super.x2; //Domain
         double delta = 0.1;
         gc.setLineWidth(1);
-        gc.setStroke(Color.RED);
+        gc.setStroke(super.col);
         while (i <= XEnd){
             double prevX = i;
             //Cut off the extra digits for i to avoid errors

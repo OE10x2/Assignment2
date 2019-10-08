@@ -23,16 +23,19 @@ public class FunctionTester extends Application{
         drawShapes(gc);
 
         Linear line = new Linear(-2.0, -1.0, 0.0);
+        line.setColour(Color.BLACK);
         System.out.println(line.toString());
         System.out.println(line.getArea(-10, 10));
         System.out.println(line.getSlope(0));
-        //line.draw(gc, screenX, screenY);
+        line.draw(gc, screenX, screenY);
 
         Quadratic q = new Quadratic(0.25, -0.5, -1.0, 0.0);
+        q.setColour(Color.PURPLE);
+        q.setDomain(50, 100);
         System.out.println(q.toString());
         System.out.println(q.getArea(-10, 10));
         System.out.println(q.getSlope(0));
-        //q.draw(gc, screenX, screenY);
+        q.draw(gc, screenX, screenY);
 
         Parabola p = new Parabola(1.0, 0.0, 0.0);
         System.out.println(p.toString());
