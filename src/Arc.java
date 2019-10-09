@@ -25,7 +25,6 @@ public class Arc extends Function implements Calculations, Drawable{
         String xString = Double.toString(-xcenter);
         String rString = Double.toString(r * r);
         //Handle xcenter
-        System.out.println("***" + xcenter + "***");
         if (xcenter == 0.0) xTerm = "x^2";
         else if (xcenter > 0) xTerm = "(x" + xString + ")^2";
         else if (xcenter < 0) xTerm = "(x+" + xString + ")^2";
@@ -41,7 +40,7 @@ public class Arc extends Function implements Calculations, Drawable{
     @Override
     public boolean undefined(double x){
         //True if the function is undefined
-        return (x >= super.getStartDomain()) && (x <= super.getEndDomain());
+        return (x >= super.getStartDomain()) && (x <= super.getEndDomain() && r * r < Math.pow(x - x1, 2));
     }
 
     @Override
@@ -69,7 +68,7 @@ public class Arc extends Function implements Calculations, Drawable{
         double i = super.x1, XEnd = super.x2; //Domain
         double delta = 0.1;
         gc.setLineWidth(1);
-        gc.setStroke(super.col);
+        gc.setStroke(super.getColour());
         while (i <= XEnd){
             double prevX = i;
             //Cut off the extra digits for i to avoid errors

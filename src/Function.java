@@ -37,7 +37,6 @@ public abstract class Function{
     }
 
     public Color getColour(){
-        //Returns color of the function
         return col;
     }
 

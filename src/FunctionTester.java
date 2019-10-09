@@ -1,9 +1,17 @@
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class FunctionTester extends Application{
@@ -13,17 +21,67 @@ public class FunctionTester extends Application{
     }
 
     double screenX = 600, screenY = 600;
+    Group root = new Group();
+    Scene scene = new Scene(root);
+    Group newG = new Group();
+    Scene newS = new Scene(newG, 400, 300);
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("Drawing Functions Test");
-        Group root = new Group();
         Canvas canvas = new Canvas(screenX, screenY);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         drawShapes(gc);
 
+        Button add = new Button("Add new function");
+        add.setTranslateX(500);
+        add.setTranslateY(500);
+        add.setOnAction(event -> {
+            Stage another = new Stage();
+            another.setScene(newS);
+            another.show();
+        });
+
+        ComboBox<String> CB = new ComboBox<>();
+        CB.getItems().addAll("Linear", "Quadratic", "Parabola", "Cubic", "Arc", "Logarithm");
+        Button confirmType = new Button("Enter");
+        confirmType.setTranslateX(100);
+        newG.getChildren().addAll(CB, confirmType);
+
+        TextField typeM = new TextField();
+        typeM.setPrefWidth(50);
+        Label nameM = new Label("m: ");
+        TextField typeX = new TextField();
+        typeX.setPrefWidth(50);
+        Label nameX = new Label("x1: ");
+        TextField typeB = new TextField();
+        typeB.setPrefWidth(50);
+        Label nameB = new Label("b: ");
+        TextField typeA = new TextField();
+        typeA.setPrefWidth(50);
+        Label nameA = new Label("a: ");
+
+        confirmType.setOnAction(event -> {
+            newG.getChildren().clear();
+            newG.getChildren().addAll(CB, confirmType);
+            String type = CB.getValue();
+            HBox texts = new HBox();
+            texts.setTranslateX(50);
+            texts.setTranslateY(100);
+            if (type.equals("Linear")){
+                texts.getChildren().addAll(nameM, typeM, nameX, typeX, nameB, typeB);
+                //Also add default form of function
+            }else if (type.equals("Parabola")){
+                texts.getChildren().addAll(nameA, typeA, nameB, typeB, nameX, typeX);
+
+            }
+            newG.getChildren().add(texts);
+        });
+
         Linear line = new Linear(-2.0, -1.0, 0.0);
-        line.setColour(Color.BLACK);
+        if (line.getColour() == Color.BLACK) line.setColour(Color.BROWN);
+        line.setName("Line 1");
+        System.out.println(line.getName());
         System.out.println(line.toString());
         System.out.println(line.getArea(-10, 10));
         System.out.println(line.getSlope(0));
@@ -63,7 +121,8 @@ public class FunctionTester extends Application{
         //l.draw(gc, screenX, screenY);
 
         root.getChildren().add(canvas);
-        primaryStage.setScene(new Scene(root));
+        root.getChildren().add(add);
+        primaryStage.setScene(scene);
         primaryStage.show();
 
     }

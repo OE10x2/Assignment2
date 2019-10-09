@@ -42,7 +42,7 @@ public class Logarithm extends Function implements Calculations, Drawable{
     @Override
     public boolean undefined(double x){
         //True if the function is undefined
-        return (x >= super.getStartDomain()) && (x <= super.getEndDomain());
+        return (x >= super.getStartDomain()) && (x <= super.getEndDomain() && x > x1);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class Logarithm extends Function implements Calculations, Drawable{
         double i = super.x1, XEnd = super.x2; //Domain
         double delta = 0.1;
         gc.setLineWidth(1);
-        gc.setStroke(super.col);
+        gc.setStroke(super.getColour());
         while (i <= XEnd){
             double prevX = i;
             //Cut off the extra digits for i to avoid errors

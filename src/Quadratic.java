@@ -76,7 +76,7 @@ public class Quadratic extends Function implements Calculations, Drawable{
         double i = super.x1, XEnd = super.x2; //Domain
         double delta = 0.1;
         gc.setLineWidth(1);
-        gc.setStroke(super.col);
+        gc.setStroke(super.getColour());
         while (i <= XEnd){
             double prevX = i;
             i += delta;
