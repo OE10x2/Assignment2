@@ -3,12 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="c0d70d1f-5aee-46e9-98ad-b9e06a01c2b4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Assignment2/Cubic.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment2/Cubic.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Assignment2/FunctionTester.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment2/FunctionTester.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Assignment2/Linear.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment2/Linear.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Assignment2/Logarithm.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment2/Logarithm.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Assignment2/Parabola.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment2/Parabola.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Assignment2/Quadratic.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment2/Quadratic.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Arc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Arc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Cubic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cubic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Function.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Function.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Drawable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Drawable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FunctionTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FunctionTester.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Linear.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Linear.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Logarithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logarithm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Parabola.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Parabola.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Quadratic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quadratic.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,7 +35,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1RvXvRVlnpfW5s4xdcGLArbeQHF" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
+  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="project.structure.last.edited" value="Project" />

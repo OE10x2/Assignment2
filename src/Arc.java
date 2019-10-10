@@ -1,5 +1,5 @@
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 public class Arc extends Function implements Calculations, Drawable{
 
@@ -40,7 +40,7 @@ public class Arc extends Function implements Calculations, Drawable{
     @Override
     public boolean undefined(double x){
         //True if the function is undefined
-        return (x >= super.getStartDomain()) && (x <= super.getEndDomain() && r * r < Math.pow(x - x1, 2));
+        return x < super.getStartDomain() || x > super.getEndDomain() || r * r < Math.pow(x - xcenter, 2);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Arc extends Function implements Calculations, Drawable{
         double i = x_start, area = 0;
         while (i <= x_end){
             //Check if the value is defined (real) at the point i
-            if (r * r >= Math.pow(i - xcenter, 2)) area += val(i) * delta;
+            if (!undefined(i)) area += val(i) * delta;
             i += delta;
         }
         return area;
@@ -59,14 +59,17 @@ public class Arc extends Function implements Calculations, Drawable{
     public double getSlope(double x){
         double delta = 1e-9;
         //Check if the value is defined (real) at the point i
-        if (r * r >= Math.pow(x - xcenter, 2)) return (val(x + delta) - val(x - delta)) / delta / 2.0;
+        if (!undefined(x)) return (val(x + delta) - val(x - delta)) / delta / 2.0;
         return Double.NaN;
     }
 
     @Override
-    public void draw(GraphicsContext gc, double screenX, double screenY) {
-        double i = super.x1, XEnd = super.x2; //Domain
+    public void draw(Canvas canvas){
+        double i = super.getStartDomain(), XEnd = super.getEndDomain(); //Domain
+        System.out.println(super.getStartDomain() + " " + super.getEndDomain());
         double delta = 0.1;
+        double screenX = canvas.getWidth(), screenY = canvas.getHeight();
+        GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setLineWidth(1);
         gc.setStroke(super.getColour());
         while (i <= XEnd){
@@ -74,15 +77,12 @@ public class Arc extends Function implements Calculations, Drawable{
             //Cut off the extra digits for i to avoid errors
             i = Math.round((i + delta) * 10.0) / 10.0;
             //Check if the value is defined at i
-            if (r * r < Math.pow(i - xcenter, 2)) continue;
+            if (undefined(i)) continue;
             double startX = prevX + screenX/2.0;
             double startY = -val(prevX) + screenY/2.0;
             double endX = i + screenX/2.0;
             double endY = -val(i) + screenY/2.0;
             gc.strokeLine(startX, startY, endX, endY);
         }
-        gc.setStroke(Color.GREEN);
-        gc.setLineDashes(5d);
-        gc.strokeLine(0, 440, 600, 440);
     }
 }

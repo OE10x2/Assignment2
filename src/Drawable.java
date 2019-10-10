@@ -1,5 +1,5 @@
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.canvas.Canvas;
 
 public interface Drawable{
-    public void draw(GraphicsContext gc, double screenX, double screenY);
+    public void draw(Canvas gc);
 }

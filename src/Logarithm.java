@@ -1,5 +1,7 @@
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+
+import java.awt.*;
 
 public class Logarithm extends Function implements Calculations, Drawable{
 
@@ -42,7 +44,7 @@ public class Logarithm extends Function implements Calculations, Drawable{
     @Override
     public boolean undefined(double x){
         //True if the function is undefined
-        return (x >= super.getStartDomain()) && (x <= super.getEndDomain() && x > x1);
+        return x < super.getStartDomain() || x > super.getEndDomain() || x <= x1;
     }
 
     @Override
@@ -51,7 +53,7 @@ public class Logarithm extends Function implements Calculations, Drawable{
         double i = x_start, area = 0;
         while (i <= x_end){
             //Check if the point is defined at point i
-            if (i > x1) area += val(i) * delta;
+            if (!undefined(i)) area += val(i) * delta;
             i += delta;
         }
         return area;
@@ -61,14 +63,16 @@ public class Logarithm extends Function implements Calculations, Drawable{
     public double getSlope(double x){
         double delta = 1e-9;
         //Check if the point is defined at point i
-        if (x > x1) return (val(x + delta) - val(x - delta)) / delta / 2.0;
+        if (!undefined(x)) return (val(x + delta) - val(x - delta)) / delta / 2.0;
         return Double.NaN;
     }
 
     @Override
-    public void draw(GraphicsContext gc, double screenX, double screenY) {
+    public void draw(Canvas canvas){
         double i = super.x1, XEnd = super.x2; //Domain
         double delta = 0.1;
+        double screenX = canvas.getWidth(), screenY = canvas.getHeight();
+        GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setLineWidth(1);
         gc.setStroke(super.getColour());
         while (i <= XEnd){
@@ -76,7 +80,7 @@ public class Logarithm extends Function implements Calculations, Drawable{
             //Cut off the extra digits for i to avoid errors
             i = Math.round((i + delta) * 10.0) / 10.0;
             //Check if the value is defined at i
-            if (i < this.x1) continue;
+            if (undefined(i)) continue;
             double startX = prevX + screenX/2.0;
             double startY = -val(prevX) + screenY/2.0;
             double endX = i + screenX/2.0;
