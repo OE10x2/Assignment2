@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -9,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class FunctionTester extends Application{
@@ -28,11 +31,10 @@ public class FunctionTester extends Application{
         primaryStage.setTitle("Drawing Functions Test");
         Canvas canvas = new Canvas(screenX, screenY);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setStroke(Color.BLUE);
         gc.strokeLine(0, screenY/2, screenX, screenY/2);
         gc.strokeLine(screenX/2, 0, screenX/2, screenY);
         root.getChildren().add(canvas);
-/*
+
         Button add = new Button("Add new function");
         add.setTranslateX(500);
         add.setTranslateY(500);
@@ -47,25 +49,23 @@ public class FunctionTester extends Application{
         Button confirmType = new Button("Enter");
         confirmType.setTranslateX(100);
         newG.getChildren().addAll(CB, confirmType);
+        Button confirmFunc = new Button("Draw Function!");
 
-        TextField typeM = new TextField();
-        typeM.setPrefWidth(50);
-        Label nameM = new Label("m: ");
-        TextField typeX = new TextField();
-        typeX.setPrefWidth(50);
-        Label nameX = new Label("x1: ");
-        TextField typeA = new TextField();
-        typeA.setPrefWidth(50);
-        Label nameA = new Label("a: ");
-        TextField typeB = new TextField();
-        typeB.setPrefWidth(50);
-        Label nameB = new Label("b: ");
-        TextField typeC = new TextField();
-        typeC.setPrefWidth(50);
-        Label nameC = new Label("c: ");
-        TextField typeD = new TextField();
-        typeD.setPrefWidth(50);
-        Label nameD = new Label("d: ");
+        TextField type1 = new TextField();
+        type1.setPrefWidth(50);
+        Label name1 = new Label();
+        TextField type2 = new TextField();
+        type2.setPrefWidth(50);
+        Label name2 = new Label();
+        TextField type3 = new TextField();
+        type3.setPrefWidth(50);
+        Label name3 = new Label();
+        TextField type4 = new TextField();
+        type4.setPrefWidth(50);
+        Label name4 = new Label();
+        TextField type5 = new TextField();
+        type5.setPrefWidth(50);
+        Label name5 = new Label();
 
         confirmType.setOnAction(event -> {
             newG.getChildren().clear();
@@ -75,26 +75,34 @@ public class FunctionTester extends Application{
             texts.setTranslateX(50);
             texts.setTranslateY(100);
             if (type.equals("Linear")){
-                texts.getChildren().addAll(nameM, typeM, nameX, typeX, nameB, typeB);
-                //Also add default form of function
+                name1.setText("m: ");
+                name2.setText("b: ");
+                name3.setText("x1: ");
+                Text description = new Text("f(x) = m(x - x1) + b");
+                newG.getChildren().add(description);
+                texts.getChildren().addAll(name1, type1, name2, type2, name3, type3);
             }else if (type.equals("Parabola")){
-                texts.getChildren().addAll(nameA, typeA, nameB, typeB, nameX, typeX);
+                texts.getChildren().addAll();
             }else if (type.equals("Quadratic")){
-                texts.getChildren().addAll(nameA, typeA, nameC, typeC, nameX, typeX);
+                texts.getChildren().addAll();
             }else if (type.equals("Cubic")){
-                texts.getChildren().addAll(nameA, typeA, nameB, typeB, nameC, typeC, nameD, typeD, nameX, typeX);
+                texts.getChildren().addAll();
+            }else if (type.equals("Arc")){
+                texts.getChildren().addAll();
+            }else if (type.equals("Logarithm")){
+                texts.getChildren().addAll();
             }
             newG.getChildren().add(texts);
         });
-*/
-        Linear line = new Linear(-2.0, -100.0, 0.0);
+
+        Linear line = new Linear(1.0, 1.0, 0.0);
         if (line.getColour() == Color.BLACK) line.setColour(Color.BROWN);
         line.setName("Line 1");
         System.out.println(line.getName());
         System.out.println(line.toString());
         System.out.println(line.getArea(-10, 10));
         System.out.println(line.getSlope(0));
-        //line.draw(gc, screenX, screenY);
+        line.draw(canvas);
 
         Quadratic q = new Quadratic(0.25, -0.5, -1.0, 0.0);
         q.setColour(Color.PURPLE);
@@ -102,22 +110,22 @@ public class FunctionTester extends Application{
         System.out.println(q.toString());
         System.out.println(q.getArea(-10, 10));
         System.out.println(q.getSlope(0));
-        //q.draw(gc, screenX, screenY);
+        q.draw(canvas);
 
         Parabola p = new Parabola(1.0, 0.0, 0.0);
         System.out.println(p.toString());
         System.out.println(p.getArea(-10, 10));
         System.out.println(p.getSlope(0));
-        //p.draw(gc, screenX, screenY);
+        p.draw(canvas);
 
         Cubic c = new Cubic(0.35, 0.25, -0.5, -1.0, 2.0);
         System.out.println(c.toString());
         System.out.println(c.getArea(-10, 10));
         System.out.println(c.getSlope(0));
-        //c.draw(gc, screenX, screenY);
+        c.draw(canvas);
 
-        Arc a = new Arc(250.0, 0.0, -2.0);
-        a.setDomain(-300, 300);
+        Arc a = new Arc(4.0, 0.0, -2.0);
+        a.setDomain(-300, 300); //TESTING ONLY
         a.setColour(Color.FUCHSIA);
         System.out.println(a.toString());
         System.out.println(a.getArea(-10, 10));

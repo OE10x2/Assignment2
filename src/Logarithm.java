@@ -1,8 +1,6 @@
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
-import java.awt.*;
-
 public class Logarithm extends Function implements Calculations, Drawable{
 
     protected double a;
@@ -24,10 +22,9 @@ public class Logarithm extends Function implements Calculations, Drawable{
     @Override
     public String toString(){
         String name = "", xTerm = "ln(x";
-        String xString = Double.toString(-x1);
         //handle x1
-        if (x1 > 0) xTerm += xString + ")";
-        else if (x1 < 0) xTerm += "+" + xString + ")";
+        if (x1 > 0) xTerm += -x1 + ")";
+        else if (x1 < 0) xTerm += "+" + -x1 + ")";
         else xTerm += ")";
         //handle a
         if (a == 1) name += xTerm;
@@ -69,11 +66,10 @@ public class Logarithm extends Function implements Calculations, Drawable{
 
     @Override
     public void draw(Canvas canvas){
-        double i = super.x1, XEnd = super.x2; //Domain
+        double i = super.getStartDomain(), XEnd = super.getEndDomain(); //Domain
         double delta = 0.1;
         double screenX = canvas.getWidth(), screenY = canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setLineWidth(1);
         gc.setStroke(super.getColour());
         while (i <= XEnd){
             double prevX = i;

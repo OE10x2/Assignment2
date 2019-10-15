@@ -66,11 +66,9 @@ public class Arc extends Function implements Calculations, Drawable{
     @Override
     public void draw(Canvas canvas){
         double i = super.getStartDomain(), XEnd = super.getEndDomain(); //Domain
-        System.out.println(super.getStartDomain() + " " + super.getEndDomain());
         double delta = 0.1;
         double screenX = canvas.getWidth(), screenY = canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setLineWidth(1);
         gc.setStroke(super.getColour());
         while (i <= XEnd){
             double prevX = i;

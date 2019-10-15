@@ -92,12 +92,11 @@ public class Cubic extends Function implements Calculations, Drawable{
 
     @Override
     public void draw(Canvas canvas){
-        double i = super.x1, XEnd = super.x2; //Domain
+        double i = super.getStartDomain(), XEnd = super.getEndDomain(); //Domain
         double delta = 0.1;
         double screenX = canvas.getWidth();
         double screenY = canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setLineWidth(1);
         gc.setStroke(super.getColour());
         while (i <= XEnd){
             double prevX = i;

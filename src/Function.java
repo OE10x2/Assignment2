@@ -7,7 +7,6 @@ public abstract class Function{
     protected String name;
 
     public Function(double x1, double x2){
-        //Domain
         this.x1 = x1;
         this.x2 = x2;
     }
