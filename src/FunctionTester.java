@@ -22,6 +22,7 @@ public class FunctionTester extends Application{
 
     double screenX = 600, screenY = 600;
     double tempX = 0, tempY = 0;
+    double originalX = 0, originalY = 0;
     Group root = new Group();
     Scene scene = new Scene(root);
     Group newG = new Group();
@@ -172,11 +173,13 @@ public class FunctionTester extends Application{
         canvas.setOnMousePressed(event -> {
             tempX = event.getX();
             tempY = event.getY();
+            originalX = l.getX();
+            originalY = l.getY();
         });
 
         canvas.setOnMouseDragged(event -> {
-            l.setX(l.getX() + event.getX() - tempX);
-            l.setY(l.getY() - event.getY() + tempY);
+            l.setX(originalX + event.getX() - tempX);
+            l.setY(originalY + event.getY() - tempY);
             l.draw(canvas);
         });
 
