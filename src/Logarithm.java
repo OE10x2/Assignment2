@@ -1,7 +1,7 @@
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
-public class Logarithm extends Function implements Calculations, Drawable{
+public class Logarithm extends Adjust implements Calculations, Drawable{
 
     protected double a;
     protected double b;
@@ -70,6 +70,7 @@ public class Logarithm extends Function implements Calculations, Drawable{
         double delta = 0.1;
         double screenX = canvas.getWidth(), screenY = canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setStroke(super.getColour());
         while (i <= XEnd){
             double prevX = i;
@@ -77,10 +78,11 @@ public class Logarithm extends Function implements Calculations, Drawable{
             i = Math.round((i + delta) * 10.0) / 10.0;
             //Check if the value is defined at i
             if (undefined(i)) continue;
-            double startX = prevX + screenX/2.0;
-            double startY = -val(prevX) + screenY/2.0;
-            double endX = i + screenX/2.0;
-            double endY = -val(i) + screenY/2.0;
+            System.out.println(super.zoom);
+            double startX = super.zoom * prevX + screenX/2.0 + super.shiftX;
+            double startY = super.zoom * -val(prevX) + screenY/2.0 + super.shiftY;
+            double endX = super.zoom * i + screenX/2.0 + super.shiftX;
+            double endY = super.zoom * -val(i) + screenY/2.0 + super.shiftY;
             gc.strokeLine(startX, startY, endX, endY);
         }
     }

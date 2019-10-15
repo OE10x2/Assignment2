@@ -1,6 +1,4 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -9,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -21,6 +21,7 @@ public class FunctionTester extends Application{
     }
 
     double screenX = 600, screenY = 600;
+    double tempX = 0, tempY = 0;
     Group root = new Group();
     Scene scene = new Scene(root);
     Group newG = new Group();
@@ -133,11 +134,51 @@ public class FunctionTester extends Application{
         a.draw(canvas);
 
         Logarithm l = new Logarithm(1.0, 0.0, 0.0);
-        l.setColour(Color.YELLOW);
         System.out.println(l.toString());
         System.out.println(l.getArea(-10, 10));
         System.out.println(l.getSlope(0));
-        l.draw(canvas);
+
+        //Zoom button
+        Image plusSign = new Image("Plus.png");
+        ImageView editPlus = new ImageView(plusSign);
+        editPlus.setPreserveRatio(true);
+        editPlus.setFitHeight(30);
+        Button zoomIn = new Button();
+        zoomIn.setGraphic(editPlus);
+        zoomIn.setTranslateX(500);
+        zoomIn.setTranslateY(400);
+        zoomIn.setOnAction(event -> {
+            l.setZoom(l.getZoom() + 1);
+            l.draw(canvas);
+        });
+
+        Image MinusSign = new Image("Minus.png");
+        ImageView editMinus = new ImageView(MinusSign);
+        editMinus.setPreserveRatio(true);
+        editMinus.setFitWidth(30);
+        Button zoomOut = new Button();
+        zoomOut.setGraphic(editMinus);
+        zoomOut.setTranslateX(500);
+        zoomOut.setTranslateY(455);
+        zoomOut.setOnAction(event -> {
+            if (l.getZoom() > 1){
+                l.setZoom(l.getZoom() - 1);
+                l.draw(canvas);
+            }
+        });
+
+        root.getChildren().addAll(zoomIn, zoomOut);
+
+        canvas.setOnMousePressed(event -> {
+            tempX = event.getX();
+            tempY = event.getY();
+        });
+
+        canvas.setOnMouseDragged(event -> {
+            l.setX(l.getX() + event.getX() - tempX);
+            l.setY(l.getY() - event.getY() + tempY);
+            l.draw(canvas);
+        });
 
         //root.getChildren().add(add);
         primaryStage.setScene(scene);
