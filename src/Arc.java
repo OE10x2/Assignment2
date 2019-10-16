@@ -1,7 +1,7 @@
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
-public class Arc extends Function implements Calculations, Drawable{
+public class Arc extends Adjust implements Calculations, Drawable{
 
     protected double r;
     protected double xcenter;
@@ -66,20 +66,27 @@ public class Arc extends Function implements Calculations, Drawable{
     @Override
     public void draw(Canvas canvas){
         double i = super.getStartDomain(), XEnd = super.getEndDomain(); //Domain
+        double x = super.shiftX;
+        double y = super.shiftY;
+        double z = super.zoom;
         double delta = 0.1;
         double screenX = canvas.getWidth(), screenY = canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        gc.strokeLine(x, screenY/2 + y, screenX + x, screenY/2 + y);
+        gc.strokeLine(screenX/2 + x, y, screenX/2 + x, screenY + y);
+
         gc.setStroke(super.getColour());
-        while (i <= XEnd){
+        while (i + 0.1 <= XEnd){
             double prevX = i;
             //Cut off the extra digits for i to avoid errors
             i = Math.round((i + delta) * 10.0) / 10.0;
             //Check if the value is defined at i
             if (undefined(i)) continue;
-            double startX = prevX + screenX/2.0;
-            double startY = -val(prevX) + screenY/2.0;
-            double endX = i + screenX/2.0;
-            double endY = -val(i) + screenY/2.0;
+            double startX = z * prevX + screenX/2.0 + x;
+            double startY = z * -val(prevX) + screenY/2.0 + y;
+            double endX = z * i + screenX/2.0 + x;
+            double endY = z * -val(i) + screenY/2.0 + y;
             gc.strokeLine(startX, startY, endX, endY);
         }
     }

@@ -67,10 +67,15 @@ public class Logarithm extends Adjust implements Calculations, Drawable{
     @Override
     public void draw(Canvas canvas){
         double i = super.getStartDomain(), XEnd = super.getEndDomain(); //Domain
+        double x = super.shiftX;
+        double y = super.shiftY;
         double delta = 0.1;
         double screenX = canvas.getWidth(), screenY = canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        gc.strokeLine(x, screenY/2 + y, screenX + x, screenY/2 + y);
+        gc.strokeLine(screenX/2 + x, y, screenX/2 + x, screenY + y);
+
         gc.setStroke(super.getColour());
         while (i <= XEnd){
             double prevX = i;
@@ -78,11 +83,10 @@ public class Logarithm extends Adjust implements Calculations, Drawable{
             i = Math.round((i + delta) * 10.0) / 10.0;
             //Check if the value is defined at i
             if (undefined(i)) continue;
-            System.out.println(super.zoom);
-            double startX = super.zoom * prevX + screenX/2.0 + super.shiftX;
-            double startY = super.zoom * -val(prevX) + screenY/2.0 + super.shiftY;
-            double endX = super.zoom * i + screenX/2.0 + super.shiftX;
-            double endY = super.zoom * -val(i) + screenY/2.0 + super.shiftY;
+            double startX = (prevX + x) + screenX/2.0;
+            double startY = (y - val(prevX)) + screenY/2.0;
+            double endX = (i + x) + screenX/2.0;
+            double endY = (y - val(i)) + screenY/2.0;
             gc.strokeLine(startX, startY, endX, endY);
         }
     }

@@ -33,8 +33,7 @@ public class FunctionTester extends Application{
         primaryStage.setTitle("Drawing Functions Test");
         Canvas canvas = new Canvas(screenX, screenY);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.strokeLine(0, screenY/2, screenX, screenY/2);
-        gc.strokeLine(screenX/2, 0, screenX/2, screenY);
+
         root.getChildren().add(canvas);
 
         Button add = new Button("Add new function");
@@ -135,6 +134,7 @@ public class FunctionTester extends Application{
         a.draw(canvas);
 
         Logarithm l = new Logarithm(1.0, 0.0, 0.0);
+        l.setColour(Color.BLACK);
         System.out.println(l.toString());
         System.out.println(l.getArea(-10, 10));
         System.out.println(l.getSlope(0));
@@ -149,8 +149,11 @@ public class FunctionTester extends Application{
         zoomIn.setTranslateX(500);
         zoomIn.setTranslateY(400);
         zoomIn.setOnAction(event -> {
-            l.setZoom(l.getZoom() + 1);
-            l.draw(canvas);
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            a.setX(a.getX() * 2);
+            a.setY(a.getY() * 2);
+            a.setZ(a.getZ() * 2);
+            a.draw(canvas);
         });
 
         Image MinusSign = new Image("Minus.png");
@@ -162,25 +165,28 @@ public class FunctionTester extends Application{
         zoomOut.setTranslateX(500);
         zoomOut.setTranslateY(455);
         zoomOut.setOnAction(event -> {
-            if (l.getZoom() > 1){
-                l.setZoom(l.getZoom() - 1);
-                l.draw(canvas);
-            }
+                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                a.setX(a.getX() / 2);
+                a.setY(a.getY() / 2);
+                a.setZ(a.getZ() / 2);
+                a.draw(canvas);
         });
+        //PROBLEM: When zooming, the center of the focus is required
 
         root.getChildren().addAll(zoomIn, zoomOut);
 
         canvas.setOnMousePressed(event -> {
             tempX = event.getX();
             tempY = event.getY();
-            originalX = l.getX();
-            originalY = l.getY();
+            originalX = a.getX();
+            originalY = a.getY();
         });
 
         canvas.setOnMouseDragged(event -> {
-            l.setX(originalX + event.getX() - tempX);
-            l.setY(originalY + event.getY() - tempY);
-            l.draw(canvas);
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            a.setX(originalX + event.getX() - tempX);
+            a.setY(originalY + event.getY() - tempY);
+            a.draw(canvas);
         });
 
         //root.getChildren().add(add);

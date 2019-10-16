@@ -1,13 +1,13 @@
 public class Adjust extends Function{
-    protected double zoom;
     protected double shiftX;
     protected double shiftY;
+    protected double zoom;
 
     public Adjust(){
         super();
-        this.zoom = 1.0;
         this.shiftX = 0.0;
         this.shiftY = 0.0;
+        this.zoom = 1.0;
     }
 
     @Override
@@ -15,12 +15,12 @@ public class Adjust extends Function{
         return null;
     }
 
-    public double getZoom(){
+    public double getZ(){
         return this.zoom;
     }
 
-    public void setZoom(double zoom){
-        this.zoom = zoom;
+    public void setZ(double z){
+        this.zoom = z;
     }
 
     public double getX(){
