@@ -16,6 +16,7 @@ public class Cubic extends Function implements Calculations, Drawable{
         this.c = c;
         this.d = d;
         this.x1 = x1;
+        super.setName("Cubic");
     }
 
     @Override
@@ -94,21 +95,47 @@ public class Cubic extends Function implements Calculations, Drawable{
     public void draw(Canvas canvas){
         double i = super.getStartDomain(), XEnd = super.getEndDomain(); //Domain
         double delta = 0.1;
-        double screenX = canvas.getWidth();
-        double screenY = canvas.getHeight();
+        double screenX = canvas.getWidth(), screenY = canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        double domain1 = super.getStartDomain();
+        double domain2 = super.getEndDomain();
+        System.out.println("ADJUSTED DOMAIN: " + domain1 + " " + domain2);
+        double ratioX = canvas.getWidth() / Math.abs(domain2 - domain1);
+
+
+
+        /*
+        double range = -Math.min(val(domain1), val(domain2)) + (r + this.ycenter);
+        System.out.println("ADJUSTED RANGE: " + range);
+        double ratioY = canvas.getHeight() / range;
+        //NOTE: (xcenter, ycenter) is a max/min point
+        //With coefficient of entire sqrt as 1, (xcenter, ycenter) is always the max
+
+        double adjustX = Math.abs(domain2 + domain1) / 2;
+        double adjustY = (Math.min(val(domain1), val(domain2)) + (r + this.ycenter)) / 2;
+        System.out.println("RANGE ADJUST: " + adjustY);
+
+        gc.strokeLine(0, screenY/2, screenX, screenY/2);
+        gc.strokeLine(screenX/2, 0, screenX/2, screenY);
         gc.setStroke(super.getColour());
-        while (i <= XEnd){
+
+        //LAST FIX: for each ratio, multiply by 90% to show the entire graph more clearly.
+        ratioX *= 0.9;
+        ratioY *= 0.9;
+
+        while (i + 0.1 <= XEnd){
             double prevX = i;
             //Cut off the extra digits for i to avoid errors
             i = Math.round((i + delta) * 10.0) / 10.0;
             //Check if the value is defined at i
             if (undefined(i)) continue;
-            double startX = prevX + screenX/2.0;
-            double startY = -val(prevX) + screenY/2.0;
-            double endX = i + screenX/2.0;
-            double endY = -val(i) + screenY/2.0;
+            double startX = ratioX * (prevX - adjustX) + screenX/2;
+            double startY = ratioY * (-val(prevX) + adjustY) + screenY/2;
+            double endX = ratioX * (i - adjustX) + screenX/2;
+            double endY = ratioY * (-val(i) + adjustY) + screenY/2;
             gc.strokeLine(startX, startY, endX, endY);
         }
+         */
     }
 }

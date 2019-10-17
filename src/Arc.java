@@ -1,7 +1,7 @@
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
-public class Arc extends Adjust implements Calculations, Drawable{
+public class Arc extends Function implements Calculations, Drawable{
 
     protected double r;
     protected double xcenter;
@@ -12,6 +12,7 @@ public class Arc extends Adjust implements Calculations, Drawable{
         this.r = r;
         this.xcenter = xcenter;
         this.ycenter = ycenter;
+        super.setName("Arc");
     }
 
     @Override
@@ -66,27 +67,38 @@ public class Arc extends Adjust implements Calculations, Drawable{
     @Override
     public void draw(Canvas canvas){
         double i = super.getStartDomain(), XEnd = super.getEndDomain(); //Domain
-        double x = super.shiftX;
-        double y = super.shiftY;
-        double z = super.zoom;
-        double delta = 0.1;
         double screenX = canvas.getWidth(), screenY = canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        gc.strokeLine(x, screenY/2 + y, screenX + x, screenY/2 + y);
-        gc.strokeLine(screenX/2 + x, y, screenX/2 + x, screenY + y);
-
+        //X-axis & Y-axis
+        gc.strokeLine(0, screenY/2, screenX, screenY/2);
+        gc.strokeLine(screenX/2, 0, screenX/2, screenY);
         gc.setStroke(super.getColour());
-        while (i + 0.1 <= XEnd){
+
+        double domain1 = super.getStartDomain();
+        double domain2 = super.getEndDomain();
+        System.out.println("ADJUSTED DOMAIN: " + domain1 + " " + domain2);
+        double ratioX = canvas.getWidth() / Math.abs(domain2 - domain1);
+        double adjustX = Math.abs(domain2 + domain1) / 2;
+        double delta = Math.abs(domain2 - domain1) / 1000;
+        System.out.println("DELTA: " + delta);
+
+        //DELTAY
+        
+        //LAST FIX: for ratioY, multiply by 90% to show the entire graph more clearly.
+
+        while (i + delta <= domain2){
             double prevX = i;
             //Cut off the extra digits for i to avoid errors
-            i = Math.round((i + delta) * 10.0) / 10.0;
+            i = Math.round((i + delta) * 1000.0) / 1000.0;
             //Check if the value is defined at i
             if (undefined(i)) continue;
-            double startX = z * prevX + screenX/2.0 + x;
-            double startY = z * -val(prevX) + screenY/2.0 + y;
-            double endX = z * i + screenX/2.0 + x;
-            double endY = z * -val(i) + screenY/2.0 + y;
+            System.out.println("X: " + prevX + " " + i);
+            double startX = ratioX * (prevX - adjustX) + screenX/2;
+            double startY = (-val(prevX)) + screenY/2;
+            double endX = ratioX * (i - adjustX) + screenX/2;
+            double endY = (-val(i)) + screenY/2;
+            System.out.println("CUR: " + startX + " " + startY + " " + endX + " " + endY);
             gc.strokeLine(startX, startY, endX, endY);
         }
     }

@@ -1,7 +1,7 @@
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
-public class Logarithm extends Adjust implements Calculations, Drawable{
+public class Logarithm extends Function implements Calculations, Drawable{
 
     protected double a;
     protected double b;
@@ -12,6 +12,7 @@ public class Logarithm extends Adjust implements Calculations, Drawable{
         this.a = a;
         this.b = b;
         this.x1 = x1;
+        super.setName("Logarithm");
     }
 
     @Override
@@ -67,26 +68,21 @@ public class Logarithm extends Adjust implements Calculations, Drawable{
     @Override
     public void draw(Canvas canvas){
         double i = super.getStartDomain(), XEnd = super.getEndDomain(); //Domain
-        double x = super.shiftX;
-        double y = super.shiftY;
         double delta = 0.1;
-        double screenX = canvas.getWidth(), screenY = canvas.getHeight();
+        double screenX = canvas.getWidth();
+        double screenY = canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        gc.strokeLine(x, screenY/2 + y, screenX + x, screenY/2 + y);
-        gc.strokeLine(screenX/2 + x, y, screenX/2 + x, screenY + y);
-
         gc.setStroke(super.getColour());
-        while (i <= XEnd){
+        while (i <= XEnd) {
             double prevX = i;
             //Cut off the extra digits for i to avoid errors
             i = Math.round((i + delta) * 10.0) / 10.0;
             //Check if the value is defined at i
             if (undefined(i)) continue;
-            double startX = (prevX + x) + screenX/2.0;
-            double startY = (y - val(prevX)) + screenY/2.0;
-            double endX = (i + x) + screenX/2.0;
-            double endY = (y - val(i)) + screenY/2.0;
+            double startX = prevX + screenX / 2.0;
+            double startY = -val(prevX) + screenY / 2.0;
+            double endX = i + screenX / 2.0;
+            double endY = -val(i) + screenY / 2.0;
             gc.strokeLine(startX, startY, endX, endY);
         }
     }

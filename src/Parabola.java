@@ -9,5 +9,6 @@ public class Parabola extends Quadratic{
         this.a = a;
         this.b = b;
         this.x1 = x1;
+        super.setName("Parabola");
     }
 }

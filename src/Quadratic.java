@@ -1,3 +1,5 @@
+import javafx.scene.canvas.Canvas;
+
 public class Quadratic extends Cubic{
 
     protected double a;
@@ -11,5 +13,15 @@ public class Quadratic extends Cubic{
         this.b = b;
         this.c = c;
         this.x1 = x1;
+        super.setName("Quadratic");
+    }
+
+    @Override
+    public void draw(Canvas canvas){
+        /*
+        Cases:
+        1) 1 turn BREAK -> ARC solution (Compare Endings & Vertex)
+        2) No turns -> Start and Ending Points
+         */
     }
 }

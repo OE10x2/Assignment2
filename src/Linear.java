@@ -1,3 +1,5 @@
+import javafx.scene.canvas.Canvas;
+
 public class Linear extends Quadratic{
 
     protected double m;
@@ -9,5 +11,13 @@ public class Linear extends Quadratic{
         this.m = m;
         this.b = b;
         this.x1 = x1;
+        super.setName("Linear");
+    }
+
+    @Override
+    public void draw(Canvas canvas){
+        //Only 1 case: connect opposites .-.
+
+
     }
 }
