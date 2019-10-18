@@ -34,7 +34,8 @@ public class FunctionTester extends Application{
         //p.draw(canvas);
 
         Cubic c = new Cubic(0.35, 0.25, -0.5, -1.0, 2.0);
-        //c.setDomain(50, 50.001);
+        c.setColour(Color.TURQUOISE);
+        c.setDomain(-10, 10);
         //c.draw(canvas);
 
         Arc a = new Arc(4.0, 0.0, -2.0);
@@ -43,7 +44,7 @@ public class FunctionTester extends Application{
         a.draw(canvas);
 
         Logarithm l = new Logarithm(1.0, 0.0, 0.0);
-        //l.setDomain(0, 500);
+        l.setDomain(0, 500);
         //l.draw(canvas);
     }
 }

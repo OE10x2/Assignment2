@@ -1,5 +1,7 @@
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 
 import java.math.BigDecimal;
 
@@ -121,6 +123,30 @@ public class Arc extends Function implements Calculations, Drawable{
             double endX = ratioX * (loop.doubleValue() - adjustX) + screenX/2;
             double endY = ratioY * (-val(loop.doubleValue()) - adjustY) + screenY/2;
             gc.strokeLine(startX, startY, endX, endY);
+        }
+
+        //LABEL AXIS
+        double domainLabel = (domain2 - domain1) / 10;
+        double rangeLabel = (highest - lowest) / 10;
+        System.out.println("RANGE: " + rangeLabel + " " + -highest + " " + -lowest);
+        gc.setLineWidth(2.0);
+        gc.setStroke(Color.BLACK);
+        gc.setTextAlign(TextAlignment.CENTER);
+        for (int i = 1; i <= 9; i++){
+            if (i == 5) continue; //So called "Origin"; skip
+            double curLoopX = canvas.getWidth() / 10 * i;
+            double curLoopY = canvas.getHeight() / 10 * i;
+            double curX = domain1 + domainLabel * i;
+            double curY = lowest + rangeLabel * i;
+            //Set the y to be below x-axis (around 310)
+            //For the mark, += 5; width 2
+            //Same for y-axis; right
+            gc.strokeLine(curLoopX, canvas.getWidth() / 2 - 5, curLoopX, canvas.getWidth() / 2 + 5);
+            gc.strokeLine(canvas.getHeight() / 2 - 5, curLoopY, canvas.getHeight() / 2 + 5, curLoopY);
+            String labelX = Double.toString(Math.round(curX * 1000.0) / 1000.0);
+            String labelY = Double.toString(Math.round(curY * 10.0) / 10.0);
+            gc.fillText(labelX, curLoopX, 320);
+            gc.fillText(labelY, 325, curLoopY+3);
         }
     }
 }
