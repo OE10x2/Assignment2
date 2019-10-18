@@ -19,7 +19,7 @@ public abstract class Function{
     public abstract String toString();
 
     public void setDomain(double x1, double x2){
-        if (x1 > x2) return;
+        if (x1 >= x2) return;
         //Ensure that the starting domain is larger than ending domain
         this.x1 = x1;
         this.x2 = x2;

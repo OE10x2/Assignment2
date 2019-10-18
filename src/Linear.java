@@ -13,11 +13,4 @@ public class Linear extends Quadratic{
         this.x1 = x1;
         super.setName("Linear");
     }
-
-    @Override
-    public void draw(Canvas canvas){
-        //Only 1 case: connect opposites .-.
-
-
-    }
 }

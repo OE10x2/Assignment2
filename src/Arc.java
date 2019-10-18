@@ -1,6 +1,8 @@
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.math.BigDecimal;
+
 public class Arc extends Function implements Calculations, Drawable{
 
     protected double r;
@@ -66,7 +68,6 @@ public class Arc extends Function implements Calculations, Drawable{
 
     @Override
     public void draw(Canvas canvas){
-        double i = super.getStartDomain(), XEnd = super.getEndDomain(); //Domain
         double screenX = canvas.getWidth(), screenY = canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
@@ -77,28 +78,48 @@ public class Arc extends Function implements Calculations, Drawable{
 
         double domain1 = super.getStartDomain();
         double domain2 = super.getEndDomain();
-        System.out.println("ADJUSTED DOMAIN: " + domain1 + " " + domain2);
         double ratioX = canvas.getWidth() / Math.abs(domain2 - domain1);
-        double adjustX = Math.abs(domain2 + domain1) / 2;
-        double delta = Math.abs(domain2 - domain1) / 1000;
-        System.out.println("DELTA: " + delta);
+        double adjustX = (domain2 + domain1) / 2;
 
-        //DELTAY
-        
-        //LAST FIX: for ratioY, multiply by 90% to show the entire graph more clearly.
+        //OBJECTIVE: Find real domain, compare with setup domain
+        double realDomain1 = this.xcenter - this.r;
+        double realDomain2 = this.xcenter + this.r;
+        if (realDomain1 > realDomain2){
+            //Ensure that domain1 <= domain2
+            double temp = realDomain2;
+            realDomain2 = realDomain1;
+            realDomain1 = temp;
+        }
+        //Compare with setup domain to find the final defined & intended domain
+        realDomain1 = Math.max(realDomain1, domain1);
+        realDomain2 = Math.min(realDomain2, domain2);
+        System.out.println("ADJUSTED DOMAIN: " + realDomain1 + " " + realDomain2);
 
-        while (i + delta <= domain2){
-            double prevX = i;
-            //Cut off the extra digits for i to avoid errors
-            i = Math.round((i + delta) * 1000.0) / 1000.0;
-            //Check if the value is defined at i
-            if (undefined(i)) continue;
-            System.out.println("X: " + prevX + " " + i);
+        BigDecimal delta = new BigDecimal(Math.abs(realDomain2 - realDomain1) / 1000);
+        BigDecimal loop = new BigDecimal(domain1);
+
+        double highest = -Double.MAX_VALUE, lowest = Double.MAX_VALUE;
+        while (loop.doubleValue() <= domain2){
+            if (undefined(loop.doubleValue())){
+                loop = loop.add(delta);
+                continue;
+            }
+            highest = Math.max(highest, -val(loop.doubleValue()));
+            lowest = Math.min(lowest, -val(loop.doubleValue()));
+            loop = loop.add(delta);
+        }
+        double adjustY = (highest + lowest) / 2;
+        double ratioY = screenY / (highest - lowest);
+
+        loop = new BigDecimal(realDomain1);
+
+        while (loop.doubleValue() <= realDomain2){
+            double prevX = loop.doubleValue();
+            loop = loop.add(delta);
             double startX = ratioX * (prevX - adjustX) + screenX/2;
-            double startY = (-val(prevX)) + screenY/2;
-            double endX = ratioX * (i - adjustX) + screenX/2;
-            double endY = (-val(i)) + screenY/2;
-            System.out.println("CUR: " + startX + " " + startY + " " + endX + " " + endY);
+            double startY = ratioY * (-val(prevX) - adjustY) + screenY/2;
+            double endX = ratioX * (loop.doubleValue() - adjustX) + screenX/2;
+            double endY = ratioY * (-val(loop.doubleValue()) - adjustY) + screenY/2;
             gc.strokeLine(startX, startY, endX, endY);
         }
     }

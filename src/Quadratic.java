@@ -15,13 +15,4 @@ public class Quadratic extends Cubic{
         this.x1 = x1;
         super.setName("Quadratic");
     }
-
-    @Override
-    public void draw(Canvas canvas){
-        /*
-        Cases:
-        1) 1 turn BREAK -> ARC solution (Compare Endings & Vertex)
-        2) No turns -> Start and Ending Points
-         */
-    }
 }

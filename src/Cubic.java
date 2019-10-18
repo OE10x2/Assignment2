@@ -1,6 +1,8 @@
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.math.BigDecimal;
+
 public class Cubic extends Function implements Calculations, Drawable{
 
     protected double a;
@@ -93,49 +95,43 @@ public class Cubic extends Function implements Calculations, Drawable{
 
     @Override
     public void draw(Canvas canvas){
-        double i = super.getStartDomain(), XEnd = super.getEndDomain(); //Domain
-        double delta = 0.1;
         double screenX = canvas.getWidth(), screenY = canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        double domain1 = super.getStartDomain();
-        double domain2 = super.getEndDomain();
-        System.out.println("ADJUSTED DOMAIN: " + domain1 + " " + domain2);
-        double ratioX = canvas.getWidth() / Math.abs(domain2 - domain1);
-
-
-
-        /*
-        double range = -Math.min(val(domain1), val(domain2)) + (r + this.ycenter);
-        System.out.println("ADJUSTED RANGE: " + range);
-        double ratioY = canvas.getHeight() / range;
-        //NOTE: (xcenter, ycenter) is a max/min point
-        //With coefficient of entire sqrt as 1, (xcenter, ycenter) is always the max
-
-        double adjustX = Math.abs(domain2 + domain1) / 2;
-        double adjustY = (Math.min(val(domain1), val(domain2)) + (r + this.ycenter)) / 2;
-        System.out.println("RANGE ADJUST: " + adjustY);
-
+        //X-axis & Y-axis
         gc.strokeLine(0, screenY/2, screenX, screenY/2);
         gc.strokeLine(screenX/2, 0, screenX/2, screenY);
         gc.setStroke(super.getColour());
 
-        //LAST FIX: for each ratio, multiply by 90% to show the entire graph more clearly.
-        ratioX *= 0.9;
-        ratioY *= 0.9;
+        double domain1 = super.getStartDomain(), domain2 = super.getEndDomain();
+        double adjustX = (domain2 + domain1) / 2;
+        double ratioX = screenX / (domain2 - domain1);
 
-        while (i + 0.1 <= XEnd){
-            double prevX = i;
-            //Cut off the extra digits for i to avoid errors
-            i = Math.round((i + delta) * 10.0) / 10.0;
-            //Check if the value is defined at i
-            if (undefined(i)) continue;
+        BigDecimal delta = new BigDecimal(Math.abs(domain2 - domain1) / 1000);
+        BigDecimal loop = new BigDecimal(domain1);
+
+        double highest = -Double.MAX_VALUE, lowest = Double.MAX_VALUE;
+        while (loop.doubleValue() <= domain2){
+            highest = Math.max(highest, -val(loop.doubleValue()));
+            lowest = Math.min(lowest, -val(loop.doubleValue()));
+            loop = loop.add(delta);
+        }
+        double adjustY = (highest + lowest) / 2;
+        double ratioY = screenY / (highest - lowest);
+
+        loop = new BigDecimal(domain1);
+
+        while (loop.doubleValue() <= domain2){
+            double prevX = loop.doubleValue();
+            loop = loop.add(delta);
             double startX = ratioX * (prevX - adjustX) + screenX/2;
-            double startY = ratioY * (-val(prevX) + adjustY) + screenY/2;
-            double endX = ratioX * (i - adjustX) + screenX/2;
-            double endY = ratioY * (-val(i) + adjustY) + screenY/2;
+            double startY = ratioY * (-val(prevX) - adjustY) + screenY/2;
+            double endX = ratioX * (loop.doubleValue() - adjustX) + screenX/2;
+            double endY = ratioY * (-val(loop.doubleValue()) - adjustY) + screenY/2;
             gc.strokeLine(startX, startY, endX, endY);
         }
-         */
+
+        //LABEL AXIS
+
     }
 }
