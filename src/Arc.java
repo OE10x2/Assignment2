@@ -133,7 +133,6 @@ public class Arc extends Function implements Calculations, Drawable{
         gc.setStroke(Color.BLACK);
         gc.setTextAlign(TextAlignment.CENTER);
         for (int i = 1; i <= 9; i++){
-            if (i == 5) continue; //So called "Origin"; skip
             double curLoopX = canvas.getWidth() / 10 * i;
             double curLoopY = canvas.getHeight() / 10 * i;
             double curX = domain1 + domainLabel * i;
@@ -145,6 +144,10 @@ public class Arc extends Function implements Calculations, Drawable{
             gc.strokeLine(canvas.getHeight() / 2 - 5, curLoopY, canvas.getHeight() / 2 + 5, curLoopY);
             String labelX = Double.toString(Math.round(curX * 1000.0) / 1000.0);
             String labelY = Double.toString(Math.round(curY * 10.0) / 10.0);
+            if (i == 5){
+                gc.fillText(labelX, curLoopX, 320);
+                continue; //So called "Origin"; skip y
+            }
             gc.fillText(labelX, curLoopX, 320);
             gc.fillText(labelY, 325, curLoopY+3);
         }

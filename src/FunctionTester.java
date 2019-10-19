@@ -35,13 +35,13 @@ public class FunctionTester extends Application{
 
         Cubic c = new Cubic(0.35, 0.25, -0.5, -1.0, 2.0);
         c.setColour(Color.TURQUOISE);
-        c.setDomain(-10, 10);
-        //c.draw(canvas);
+        c.setDomain(-10, 30);
+        c.draw(canvas);
 
         Arc a = new Arc(4.0, 0.0, -2.0);
         a.setColour(Color.TURQUOISE);
-        a.setDomain(-3, 2);
-        a.draw(canvas);
+        //a.setDomain(-3, 2);
+        //a.draw(canvas);
 
         Logarithm l = new Logarithm(1.0, 0.0, 0.0);
         l.setDomain(0, 500);
