@@ -1,5 +1,3 @@
-import javafx.scene.canvas.Canvas;
-
 public class Quadratic extends Cubic{
 
     protected double a;

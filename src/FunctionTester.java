@@ -2,7 +2,6 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -35,16 +34,18 @@ public class FunctionTester extends Application{
 
         Cubic c = new Cubic(0.35, 0.25, -0.5, -1.0, 2.0);
         c.setColour(Color.TURQUOISE);
-        c.setDomain(-10, 30);
+        c.setDomain(-10, 19);
         c.draw(canvas);
 
-        Arc a = new Arc(4.0, 0.0, -2.0);
+        Arc a = new Arc(4.0, 0.0, 0.0);
         a.setColour(Color.TURQUOISE);
-        //a.setDomain(-3, 2);
+        a.setDomain(-3, 1);
         //a.draw(canvas);
+        //System.out.println(a.getArea(-5, -4));
 
-        Logarithm l = new Logarithm(1.0, 0.0, 0.0);
-        l.setDomain(0, 500);
+        Logarithm l = new Logarithm(1.0, 0.0, 90.0);
+        l.setDomain(-100, 100);
         //l.draw(canvas);
+        //System.out.println(l.getArea(5 ,6));
     }
 }
